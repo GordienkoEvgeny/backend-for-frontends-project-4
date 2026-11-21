@@ -1,8 +1,8 @@
-name: CI
+name: Lint and Format
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 permissions:

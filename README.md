@@ -1,4 +1,3 @@
-
 [![CI](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/ci.yml/badge.svg)](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/ci.yml)
 [![hexlet-check](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions)
 
