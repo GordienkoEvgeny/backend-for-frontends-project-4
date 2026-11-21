@@ -1,6 +1,7 @@
-# Загрузчик страниц (JS)
-
+[![CI](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/ci.yml/badge.svg)](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/ci.yml)
 [![hexlet-check](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions)
+
+# Загрузчик страниц (JS)
 
 На базовом уровне научитесь работать с асинхронным кодом в JavaScript, писать тесты на Mock / Stub, работать с ошибками и исключениями, DOM, promises, async / await, работать с HTTP.
 
