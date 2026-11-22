@@ -22,7 +22,7 @@ jobs:
       - run: npm ci
 
       - name: Run Oxlint
-        run: npm run lint -- --allow-empty
+        run: npm run lint
 
       - name: Check Oxfmt formatting
         run: npm run format:check

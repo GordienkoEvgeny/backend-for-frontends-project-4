@@ -12,14 +12,21 @@
     "type": "git",
     "url": "git+https://github.com/GordienkoEvgeny/backend-for-frontends-project-4.git"
   },
+  "bin": {
+    "page-loader": "./page-loader.js"
+  },
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "run test",
     "lint": "oxlint",
-    "format:check": "oxfmt --check"
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "test": "vitest run"
   },
   "devDependencies": {
     "oxfmt": "^0.79.0",
-    "oxlint": "^1.94.0"
+    "oxlint": "^1.94.0",
+    "vitest": "^4.1.12"
   }
 }
