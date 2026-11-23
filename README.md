@@ -1,7 +1,7 @@
 [![CI](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/ci.yml/badge.svg)](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/ci.yml)
 [![hexlet-check](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions)
 
-[![asciicast](https://asciinema.org/a/CtkHcMihroybhZjO.svg)](https://asciinema.org/a/CtkHcMihroybhZjO)
+[Запись работы утилиты](https://asciinema.org/a/d1ItvTJsVUn0F2bB)
 
 # Загрузчик страниц (JS)
 
