@@ -4,9 +4,10 @@ export function saveFile(dir, name, data) {
   return fsp
     .writeFile(`${dir}/${name}`, data)
     .then(() => {
-      console.log("save success");
+      console.log(`save success`);
     })
     .catch((error) => {
-      console.error("Ошибка при сохранении:", error);
+      console.error(`Ошибка при сохранении ${name}:`, error.message);
+      throw error;
     });
 }
