@@ -40,8 +40,8 @@ describe("output function", () => {
     // Имитируем ошибку сети
     axios.get.mockRejectedValue(new Error("Network Error"));
 
-    // Вызываем функцию (перехватываем ошибку, так как она ловится внутри)
-    await output("/tmp", "https://ru.hexlet.io");
+    // Вызываем функцию и ожидаем, что она выбросит ошибку
+    await expect(output("/tmp", "https://ru.hexlet.io")).rejects.toThrow("Network Error");
 
     // Проверяем, что функция сохранения НЕ вызывалась
     expect(saveFileModule.saveFile).not.toHaveBeenCalled();
