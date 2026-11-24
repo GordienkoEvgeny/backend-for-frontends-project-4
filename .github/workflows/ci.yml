@@ -1,4 +1,4 @@
-name: Lint and Format
+name: Lint, Format and Test
 
 on:
   push:
@@ -26,3 +26,6 @@ jobs:
 
       - name: Check Oxfmt formatting
         run: npm run format:check
+
+      - name: Run Tests
+        run: npm test

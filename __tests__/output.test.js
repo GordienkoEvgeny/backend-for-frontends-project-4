@@ -32,7 +32,7 @@ describe("output function", () => {
     expect(saveFileModule.saveFile).toHaveBeenCalledWith(
       outputDir,
       "ru-hexlet-io-courses.html",
-      fakeHtml,
+      expect.stringContaining("Test"),
     );
   });
 

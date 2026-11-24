@@ -4,7 +4,7 @@ import { getFileName } from "./get-file-name.js";
 import { saveFile } from "./save-file.js";
 import { createDirectory } from "./create-directory.js";
 import { processResources } from "./process-resources.js";
-import { downloadImages } from "./download-Img.js";
+import { downloadResources } from "./download-resources.js";
 
 export function output(saveDirPath, link) {
   const fileName = getFileName(link, ".html");
@@ -28,7 +28,7 @@ export function output(saveDirPath, link) {
     })
 
     .then(() => {
-      return downloadImages(resourcesLinks, fullFilesPath);
+      return downloadResources(resourcesLinks, fullFilesPath);
     })
 
     .catch((e) => {
