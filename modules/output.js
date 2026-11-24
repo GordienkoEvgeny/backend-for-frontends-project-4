@@ -5,6 +5,7 @@ import { saveFile } from "./save-file.js";
 import { createDirectory } from "./create-directory.js";
 import { processResources } from "./process-resources.js";
 import { downloadResources } from "./download-resources.js";
+import { log } from "./logger.js";
 
 export function output(saveDirPath, link) {
   const fileName = getFileName(link, ".html");
@@ -13,25 +14,35 @@ export function output(saveDirPath, link) {
 
   const fullFilesPath = path.join(saveDirPath, dirName);
 
+  log(`ℹ️ Cтарт загрузки страницы ${link}`);
+
   return axios
     .get(link)
     .then((response) => {
+      log(`✅ Страница успешно загружена. Размер: ${response.data.length} байт`);
+
       const { modifiedHtml, resourceUrls } = processResources(response.data, link, dirName);
 
       resourcesLinks = resourceUrls.map((url) => url);
+
+      log(`ℹ️ Сохранение страницы`);
 
       return saveFile(saveDirPath, fileName, modifiedHtml);
     })
 
     .then(() => {
+      log(`ℹ️ Cтарт создания директории`);
       return createDirectory(fullFilesPath);
     })
 
     .then(() => {
+      log(`ℹ️ Cтарт загрузки ресурсов`);
       return downloadResources(resourcesLinks, fullFilesPath);
     })
 
     .catch((e) => {
-      console.error("Ошибка ", e.message);
+      log("❌ Ошибка ", e.message);
+      console.error(" ❌ Ошибка ", e.message);
+      throw e;
     });
 }
