@@ -7,10 +7,6 @@ import { processResources } from "./process-resources.js";
 import { downloadResources } from "./download-resources.js";
 import { log } from "./logger.js";
 
-// import { createRequire } from "module";
-// const require = createRequire(import.meta.url);
-// require("axios-debug-log/enable.js");
-
 export function output(saveDirPath, link) {
   const fileName = getFileName(link, ".html");
   const dirName = getFileName(link, "_files");
