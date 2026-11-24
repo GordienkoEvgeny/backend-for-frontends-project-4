@@ -5,7 +5,7 @@ import { log } from "./logger.js";
 
 export function downloadResources(urls, resourcesDirPath) {
   const downloadPromises = urls.map((url) => {
-    log(`Скачиваем ресурс: ${url}`);
+    log(`⬇️ Скачиваем ресурс: ${url}`);
     // получаем расширение из ссылки
     const urlParts = url.split("?")[0].split(".");
     const ext = urlParts.pop();
@@ -19,7 +19,7 @@ export function downloadResources(urls, resourcesDirPath) {
         return saveFile(resourcesDirPath, fileName, response.data);
       })
       .catch((error) => {
-        log(`ошибка при скачивании ${fileName}:`, error.message);
+        log(`❌ Ошибка при скачивании ${fileName}:`, error.message);
         return Promise.reject(error);
       });
   });
