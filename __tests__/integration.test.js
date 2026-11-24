@@ -10,11 +10,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const fixturesDir = path.join(__dirname, "..", "__fixtures__");
 
-describe("Интеграционный тест с фикстурами", () => {
+describe("Интеграционный тест с фикстурой", () => {
   let tempDir;
 
   beforeAll(async () => {
-    nock.disableNetConnect(); // запрещаем реальные запросы
+    nock.disableNetConnect();
     tempDir = await fsp.mkdtemp(path.join(os.tmpdir(), "page-loader-"));
   });
 
@@ -23,35 +23,54 @@ describe("Интеграционный тест с фикстурами", () => 
     nock.enableNetConnect();
   });
 
-  it("должна скачать страницу, заменить ссылки и сохранить картинку", async () => {
-    // читаем фикстуры
+  it("скачивает локальные ресурсы и не трогает внешние", async () => {
+    // Читаем фикстуру
     const htmlFixture = await fsp.readFile(path.join(fixturesDir, "hexlet.html"), "utf-8");
     const imageFixture = await fsp.readFile(path.join(fixturesDir, "nodejs.png"), "utf-8");
-
     const pageUrl = "https://ru.hexlet.io/courses";
 
-    // nock
+    // Настраиваем nock для страницы и локальных ресурсов
     nock("https://ru.hexlet.io").get("/courses").reply(200, htmlFixture);
-    nock("https://ru.hexlet.io")
-      .get("/assets/professions/nodejs.png")
-      .reply(200, imageFixture, { "Content-Type": "image/png" });
+    nock("https://ru.hexlet.io").get("/assets/application.css").reply(200, "css content");
+    nock("https://ru.hexlet.io").get("/assets/professions/nodejs.png").reply(200, imageFixture);
+    nock("https://ru.hexlet.io").get("/packs/js/runtime.js").reply(200, "js content");
 
-    // запускаем функцию
+    // Запускаем функцию
     await output(tempDir, pageUrl);
 
-    // проверяем HTML
+    // Проверяем HTML
     const savedHtml = await fsp.readFile(path.join(tempDir, "ru-hexlet-io-courses.html"), "utf-8");
+
+    // Проверяем, что локальные ссылки заменились
     expect(savedHtml).toContain(
-      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-assets-professions-nodejs.png"',
+      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-assets-professions-nodejs-png.png"',
+    );
+    expect(savedHtml).toContain(
+      'href="./ru-hexlet-io-courses_files/ru-hexlet-io-assets-application-css.css"',
+    );
+    expect(savedHtml).toContain(
+      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-packs-js-runtime-js.js"',
     );
 
-    // проверяем картинку
-    const savedImagePath = path.join(
-      tempDir,
-      "ru-hexlet-io-courses_files",
-      "ru-hexlet-io-assets-professions-nodejs.png",
+    // Проверяем, что ВНЕШНИЕ ссылки остались нетронутыми
+    expect(savedHtml).toContain('href="https://cdn2.hexlet.io/assets/menu.css"');
+    expect(savedHtml).toContain('src="https://js.stripe.com/v3/"');
+
+    // Проверяем, что файлы скачались
+    const files = await fsp.readdir(path.join(tempDir, "ru-hexlet-io-courses_files"));
+
+    // Должно быть 3 файла (css, png, js). Внешние мы не качаем.
+    expect(files).toHaveLength(3);
+
+    // Проверяем картинку
+    const savedImage = await fsp.readFile(
+      path.join(
+        tempDir,
+        "ru-hexlet-io-courses_files",
+        "ru-hexlet-io-assets-professions-nodejs-png.png",
+      ),
+      "utf-8",
     );
-    const savedImageContent = await fsp.readFile(savedImagePath, "utf-8");
-    expect(savedImageContent).toBe(imageFixture);
+    expect(savedImage).toBe(imageFixture);
   });
 });
