@@ -12,11 +12,14 @@ const require = createRequire(import.meta.url);
 require("axios-debug-log");
 
 const command = (links, options) => {
-  for (const link of links) {
-    if (link) {
-      output(options.output, link);
-    }
-  }
+  const promises = links.map((link) => {
+    return output(options.output, link).catch((e) => {
+      console.error(`❌ Ошибка: ${e.message}`);
+      process.exitCode = 1;
+    });
+  });
+
+  return Promise.all(promises);
 };
 
 program

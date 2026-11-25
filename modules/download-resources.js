@@ -19,8 +19,7 @@ export function downloadResources(urls, resourcesDirPath) {
         return saveFile(resourcesDirPath, fileName, response.data);
       })
       .catch((error) => {
-        log(`❌ Ошибка при скачивании ${fileName}:`, error.message);
-        return Promise.reject(error);
+        throw new Error(`Не удалось скачать ресурс ${url}: ${error.message}`);
       });
   });
 

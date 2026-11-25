@@ -8,7 +8,6 @@ export function saveFile(dir, name, data) {
       log(`✅ Файл ${name} сохранен!`);
     })
     .catch((error) => {
-      console.error(`Ошибка при сохранении ${name}:`, error.message);
-      throw error;
+      throw new Error(`Ошибка сохранения файла ${name}: ${error.message}`);
     });
 }
