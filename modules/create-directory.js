@@ -5,5 +5,7 @@ export function createDirectory(dirPath) {
   return fsp
     .mkdir(dirPath, { recursive: true })
     .then(() => log(`✅ Директория ${dirPath} создана`))
-    .catch((e) => log(`Ошибка создания директории ${dirPath}`));
+    .catch((e) => {
+      throw new Error(`Ошибка создания директории ${dirPath}: ${error.message}`);
+    });
 }

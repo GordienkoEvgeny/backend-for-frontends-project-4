@@ -41,8 +41,6 @@ export function output(saveDirPath, link) {
     })
 
     .catch((e) => {
-      log("❌ Ошибка ", e.message);
-      console.error(" ❌ Ошибка ", e.message);
-      throw e;
+      throw new Error(e.message);
     });
 }
