@@ -4,10 +4,11 @@ import { getFileName } from "./get-file-name.js";
 import { saveFile } from "./save-file.js";
 import { createDirectory } from "./create-directory.js";
 import { processResources } from "./process-resources.js";
+import { downloadWithProgress } from "./download-progress.js";
 import { downloadResources } from "./download-resources.js";
 import { log } from "./logger.js";
 
-export function output(saveDirPath, link) {
+export function output(saveDirPath, link, useProgress) {
   const fileName = getFileName(link, ".html");
   const dirName = getFileName(link, "_files");
   let resourcesLinks = [];
@@ -37,6 +38,9 @@ export function output(saveDirPath, link) {
 
     .then(() => {
       log(`ℹ️ Cтарт загрузки ресурсов`);
+      if (useProgress) {
+        return downloadWithProgress(resourcesLinks, fullFilesPath);
+      }
       return downloadResources(resourcesLinks, fullFilesPath);
     })
 

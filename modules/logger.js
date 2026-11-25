@@ -2,8 +2,6 @@ import debug from "debug";
 import axios from "axios";
 
 export const log = debug("page-loader");
-
-// Логгер axios
 const axiosLog = debug("axios");
 
 axios.interceptors.request.use((config) => {

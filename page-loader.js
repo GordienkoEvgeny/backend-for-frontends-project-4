@@ -2,18 +2,13 @@
 import { program } from "commander";
 import { output } from "./modules/output.js";
 
-// явно включаем ОБА неймспейса через debug
-import debug from "debug";
-debug.enable("page-loader,axios");
-
-// подключаем axios-debug-log (он добавит свои логи, но не затронет page-loader)
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 require("axios-debug-log");
 
 const command = (links, options) => {
   const promises = links.map((link) => {
-    return output(options.output, link).catch((e) => {
+    return output(options.output, link, true).catch((e) => {
       console.error(`❌ Ошибка: ${e.message}`);
       process.exitCode = 1;
     });
