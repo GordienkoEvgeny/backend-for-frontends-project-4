@@ -17,7 +17,7 @@ export function processResources(html, pageUrl, resourcesDirName) {
     const absoluteUrl = new URL(src, pageUrl);
     if (absoluteUrl.host !== baseUrl.host) return;
 
-    // Убираем завершающий слэш из пути (кроме корня), чтобы не было лишнего дефиса в имени файла
+    // срезаем завершающий слэш из пути чтобы не было лишнего дефиса в имени файла
     const cleanPathname = absoluteUrl.pathname.replace(/\/$/, "");
     const nameUrl = `${absoluteUrl.origin}${cleanPathname}`;
 
@@ -28,7 +28,6 @@ export function processResources(html, pageUrl, resourcesDirName) {
 
     const localFileName = getFileName(nameUrlWithoutExt, extension);
 
-    // Сразу передаем готовое имя файла для скачивания
     resourceUrls.push({
       url: absoluteUrl.href,
       fileName: localFileName,
