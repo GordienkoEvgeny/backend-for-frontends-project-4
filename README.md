@@ -1,10 +1,10 @@
 [![CI](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/ci.yml/badge.svg)](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/ci.yml)
 [![hexlet-check](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/GordienkoEvgeny/backend-for-frontends-project-4/actions)
 
-[Запись прогресса загрузки](https://asciinema.org/a/tZeL2O1FugAkxS0D)
-[Запись обработки ошибок](https://asciinema.org/a/xPEJZOYspdW5HcpJ)
-[Запись логирования](https://asciinema.org/a/3jCrVbfS6ZfdDj77)
-[Запись работы утилиты](https://asciinema.org/a/d1ItvTJsVUn0F2bB)
+- [Запись прогресса загрузки](https://asciinema.org/a/tZeL2O1FugAkxS0D)
+- [Запись обработки ошибок](https://asciinema.org/a/xPEJZOYspdW5HcpJ)
+- [Запись логирования](https://asciinema.org/a/3jCrVbfS6ZfdDj77)
+- [Запись работы утилиты](https://asciinema.org/a/d1ItvTJsVUn0F2bB)
 
 # Загрузчик страниц (JS)
 

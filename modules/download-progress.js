@@ -1,14 +1,14 @@
 import Listr from "listr";
 import { downloadResources } from "./download-resources.js";
 
-export async function downloadWithProgress(urls, resourcesDirPath) {
-  if (urls.length === 0) return;
+export async function downloadWithProgress(resources, resourcesDirPath) {
+  if (resources.length === 0) return;
 
   const tasks = new Listr(
-    urls.map((url) => ({
-      title: url,
+    resources.map((resource) => ({
+      title: resource.url,
       task: async () => {
-        await downloadResources([url], resourcesDirPath);
+        await downloadResources([resource], resourcesDirPath);
       },
     })),
     {

@@ -29,27 +29,29 @@ describe("Интеграционный тест с фикстурой", () => {
     const imageFixture = await fsp.readFile(path.join(fixturesDir, "nodejs.png"), "utf-8");
     const pageUrl = "https://ru.hexlet.io/courses";
 
-    // Настраиваем nock для страницы и локальных ресурсов
-    nock("https://ru.hexlet.io").get("/courses").reply(200, htmlFixture);
+    // ИЗМЕНЕНИЕ 1: добавили .times(2)
+    nock("https://ru.hexlet.io").get("/courses").times(2).reply(200, htmlFixture);
     nock("https://ru.hexlet.io").get("/assets/application.css").reply(200, "css content");
     nock("https://ru.hexlet.io").get("/assets/professions/nodejs.png").reply(200, imageFixture);
     nock("https://ru.hexlet.io").get("/packs/js/runtime.js").reply(200, "js content");
 
-    // Запускаем функцию
     await output(tempDir, pageUrl);
-
-    // Проверяем HTML
     const savedHtml = await fsp.readFile(path.join(tempDir, "ru-hexlet-io-courses.html"), "utf-8");
 
-    // Проверяем, что локальные ссылки заменились
+    // Проверяем пути в HTML
     expect(savedHtml).toContain(
-      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-assets-professions-nodejs-png.png"',
+      'href="ru-hexlet-io-courses_files/ru-hexlet-io-assets-application.css"',
     );
+
+    // ИЗМЕНЕНИЕ 2: добавили проверку ссылки на скачанный HTML-ресурс
+    expect(savedHtml).toContain('href="ru-hexlet-io-courses_files/ru-hexlet-io-courses.html"');
+
     expect(savedHtml).toContain(
-      'href="./ru-hexlet-io-courses_files/ru-hexlet-io-assets-application-css.css"',
+      'src="ru-hexlet-io-courses_files/ru-hexlet-io-assets-professions-nodejs.png"',
     );
+
     expect(savedHtml).toContain(
-      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-packs-js-runtime-js.js"',
+      'src="ru-hexlet-io-courses_files/ru-hexlet-io-packs-js-runtime.js"',
     );
 
     // Проверяем, что ВНЕШНИЕ ссылки остались нетронутыми
@@ -59,15 +61,15 @@ describe("Интеграционный тест с фикстурой", () => {
     // Проверяем, что файлы скачались
     const files = await fsp.readdir(path.join(tempDir, "ru-hexlet-io-courses_files"));
 
-    // Должно быть 3 файла (css, png, js). Внешние мы не качаем.
-    expect(files).toHaveLength(3);
+    // ИЗМЕНЕНИЕ 3: изменили 3 на 4 файла
+    expect(files).toHaveLength(4);
 
     // Проверяем картинку
     const savedImage = await fsp.readFile(
       path.join(
         tempDir,
         "ru-hexlet-io-courses_files",
-        "ru-hexlet-io-assets-professions-nodejs-png.png",
+        "ru-hexlet-io-assets-professions-nodejs.png",
       ),
       "utf-8",
     );
