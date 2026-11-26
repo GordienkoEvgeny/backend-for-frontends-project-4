@@ -1,2 +1,3 @@
 import { output } from "./modules/output.js";
-export default output;
+
+export default (url, dir) => output(dir, url);
