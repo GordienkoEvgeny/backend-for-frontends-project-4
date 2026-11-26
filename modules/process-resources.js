@@ -50,7 +50,8 @@ export function processResources(html, pageUrl, resourcesDirName) {
 
     const ext = absoluteUrl.pathname.split(".").pop();
     const extension = ext && ext.length < 5 ? `.${ext}` : ".bin";
-    const localFileName = getFileName(nameUrl, extension);
+    const nameUrlWithoutExt = nameUrl.replace(new RegExp(`${extension}$`), "");
+    const localFileName = getFileName(nameUrlWithoutExt, extension);
 
     $(element).attr(attribute, `./${resourcesDirName}/${localFileName}`);
   };
