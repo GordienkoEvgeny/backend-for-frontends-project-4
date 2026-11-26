@@ -7,22 +7,34 @@ import { processResources } from "./process-resources.js";
 import { downloadWithProgress } from "./download-progress.js";
 import { downloadResources } from "./download-resources.js";
 import { log } from "./logger.js";
+import { URL } from "node:url";
 
 export function output(saveDirPath, link, useProgress) {
-  const fileName = getFileName(link, ".html");
-  const dirName = getFileName(link, "_files");
+  let normalizedLink = link;
+  try {
+    new URL(link);
+  } catch {
+    normalizedLink = new URL(link, "http://localhost").href;
+  }
+
+  const fileName = getFileName(normalizedLink, ".html");
+  const dirName = getFileName(normalizedLink, "_files");
   let resourcesLinks = [];
 
   const fullFilesPath = path.join(saveDirPath, dirName);
 
-  log(`ℹ️ Cтарт загрузки страницы ${link}`);
+  log(`ℹ️ Cтарт загрузки страницы ${normalizedLink}`);
 
   return axios
-    .get(link)
+    .get(normalizedLink)
     .then((response) => {
       log(`✅ Страница успешно загружена. Размер: ${response.data.length} байт`);
 
-      const { modifiedHtml, resourceUrls } = processResources(response.data, link, dirName);
+      const { modifiedHtml, resourceUrls } = processResources(
+        response.data,
+        normalizedLink,
+        dirName,
+      );
 
       resourcesLinks = resourceUrls.map((url) => url);
 
