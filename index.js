@@ -1,3 +1,4 @@
+import process from "node:process";
 import { output } from "./modules/output.js";
 
-export default (url, dir) => output(dir, url);
+export default (url, outputDir = process.cwd()) => output(outputDir, url);

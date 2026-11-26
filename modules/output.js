@@ -9,7 +9,7 @@ import { downloadResources } from "./download-resources.js";
 import { log } from "./logger.js";
 import { URL } from "node:url";
 
-export function output(saveDirPath, link, useProgress) {
+export function output(saveDirPath = process.cwd(), link, useProgress) {
   let normalizedLink = link;
   try {
     new URL(link);
