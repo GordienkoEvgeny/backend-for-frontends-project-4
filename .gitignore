@@ -28,3 +28,8 @@ build/
 .idea/
 .vscode/
 *.swp
+
+# Директории
+var/
+demo/
+downloads/
