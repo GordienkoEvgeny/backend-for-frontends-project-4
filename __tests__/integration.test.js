@@ -35,21 +35,18 @@ describe("Интеграционный тест с фикстурой", () => {
     nock("https://ru.hexlet.io").get("/assets/professions/nodejs.png").reply(200, imageFixture);
     nock("https://ru.hexlet.io").get("/packs/js/runtime.js").reply(200, "js content");
 
-    // Запускаем функцию
     await output(tempDir, pageUrl);
-
-    // Проверяем HTML
     const savedHtml = await fsp.readFile(path.join(tempDir, "ru-hexlet-io-courses.html"), "utf-8");
 
-    // Проверяем, что локальные ссылки заменились
-    expect(savedHtml).toContain(
-      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-courses-assets-professions-nodejs-png.png"',
-    );
     expect(savedHtml).toContain(
       'href="./ru-hexlet-io-courses_files/ru-hexlet-io-courses-assets-application-css.css"',
     );
     expect(savedHtml).toContain(
-      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-courses-https---ru-hexlet-io-packs-js-runtime-js.js"',
+      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-courses-assets-professions-nodejs-png.png"',
+    );
+
+    expect(savedHtml).toContain(
+      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-packs-js-runtime-js.js"',
     );
 
     // Проверяем, что ВНЕШНИЕ ссылки остались нетронутыми

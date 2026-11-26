@@ -13,14 +13,19 @@ export function processResources(html, pageUrl, resourcesDirName) {
 
     if (src.startsWith("data:") || src.startsWith("#")) return;
 
-    // Абсолютный URL для скачивания
     const absoluteUrl = new URL(src, pageUrl);
     if (absoluteUrl.host !== baseUrl.host) return;
 
-    // нормализация url
-    const cleanSrc = src.startsWith("/") ? src.slice(1) : src;
-    const pageUrlWithoutSlash = pageUrl.endsWith("/") ? pageUrl.slice(0, -1) : pageUrl;
-    const nameUrl = `${pageUrlWithoutSlash}/${cleanSrc}`;
+    let nameUrl;
+    if (src.startsWith("http://") || src.startsWith("https://")) {
+      // абсолютный URL: используем его как есть
+      nameUrl = absoluteUrl.href;
+    } else {
+      // относительный URL: склеиваем pageUrl + src
+      const cleanSrc = src.startsWith("/") ? src.slice(1) : src;
+      const pageUrlWithoutSlash = pageUrl.endsWith("/") ? pageUrl.slice(0, -1) : pageUrl;
+      nameUrl = `${pageUrlWithoutSlash}/${cleanSrc}`;
+    }
 
     resourceUrls.push({
       url: absoluteUrl.href, // для axios.get
