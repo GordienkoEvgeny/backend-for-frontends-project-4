@@ -21,6 +21,6 @@ program
   .name("page-loader")
   .version("0.0.1")
   .argument("<link...>", "link to page")
-  .option("-o --output [dir]", "output dir")
+  .option("-o --output [dir]", "output dir", process.cwd())
   .action(command)
   .parse(process.argv);
