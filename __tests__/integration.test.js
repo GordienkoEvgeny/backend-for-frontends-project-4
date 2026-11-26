@@ -43,13 +43,13 @@ describe("Интеграционный тест с фикстурой", () => {
 
     // Проверяем, что локальные ссылки заменились
     expect(savedHtml).toContain(
-      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-assets-professions-nodejs-png.png"',
+      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-courses-assets-professions-nodejs-png.png"',
     );
     expect(savedHtml).toContain(
-      'href="./ru-hexlet-io-courses_files/ru-hexlet-io-assets-application-css.css"',
+      'href="./ru-hexlet-io-courses_files/ru-hexlet-io-courses-assets-application-css.css"',
     );
     expect(savedHtml).toContain(
-      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-packs-js-runtime-js.js"',
+      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-courses-https---ru-hexlet-io-packs-js-runtime-js.js"',
     );
 
     // Проверяем, что ВНЕШНИЕ ссылки остались нетронутыми
@@ -67,7 +67,7 @@ describe("Интеграционный тест с фикстурой", () => {
       path.join(
         tempDir,
         "ru-hexlet-io-courses_files",
-        "ru-hexlet-io-assets-professions-nodejs-png.png",
+        "ru-hexlet-io-courses-assets-professions-nodejs-png.png",
       ),
       "utf-8",
     );

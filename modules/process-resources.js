@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import { getFileName } from "./get-file-name.js";
-import { URL } from "node:url"; // Встроенный модуль Node.js для работы с URL
+import { URL } from "node:url";
 
 export function processResources(html, pageUrl, resourcesDirName) {
   const $ = cheerio.load(html);
@@ -11,26 +11,26 @@ export function processResources(html, pageUrl, resourcesDirName) {
     const src = $(element).attr(attribute);
     if (!src) return;
 
-    // Пропускаем data-uri (base64 картинки прямо в HTML) и якоря (#)
     if (src.startsWith("data:") || src.startsWith("#")) return;
 
-    // Склеиваем относительную ссылку с базовым URL страницы
+    // Абсолютный URL для скачивания
     const absoluteUrl = new URL(src, pageUrl);
-
-    // если ресурс на другом домене (например, cdn2.hexlet.io), пропускаем его
     if (absoluteUrl.host !== baseUrl.host) return;
 
-    const hrefStr = absoluteUrl.href;
-    resourceUrls.push(hrefStr);
+    // нормализация url
+    const cleanSrc = src.startsWith("/") ? src.slice(1) : src;
+    const pageUrlWithoutSlash = pageUrl.endsWith("/") ? pageUrl.slice(0, -1) : pageUrl;
+    const nameUrl = `${pageUrlWithoutSlash}/${cleanSrc}`;
 
-    // получаем расширение если расширения нет, оставляем дефолтное (например, .bin)
+    resourceUrls.push({
+      url: absoluteUrl.href, // для axios.get
+      nameUrl: nameUrl, // для getFileName
+    });
+
     const ext = absoluteUrl.pathname.split(".").pop();
     const extension = ext && ext.length < 5 ? `.${ext}` : ".bin";
+    const localFileName = getFileName(nameUrl, extension);
 
-    // получаем локальное имя файла
-    const localFileName = getFileName(hrefStr, extension);
-
-    // меняем атрибут в HTML на локальный путь
     $(element).attr(attribute, `./${resourcesDirName}/${localFileName}`);
   };
 
