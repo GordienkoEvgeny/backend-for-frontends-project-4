@@ -65,7 +65,7 @@ describe("Интеграционный тест с фикстурой", () => {
       path.join(
         tempDir,
         "ru-hexlet-io-courses_files",
-        "ru-hexlet-io-courses-assets-professions-nodejs-png.png",
+        "ru-hexlet-io-courses-assets-professions-nodejs.png", // <--- Без -png перед .png
       ),
       "utf-8",
     );
