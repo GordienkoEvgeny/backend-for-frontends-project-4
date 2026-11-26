@@ -38,16 +38,17 @@ describe("Интеграционный тест с фикстурой", () => {
     await output(tempDir, pageUrl);
     const savedHtml = await fsp.readFile(path.join(tempDir, "ru-hexlet-io-courses.html"), "utf-8");
 
+    // Проверяем пути в HTML
     expect(savedHtml).toContain(
-      'href="./ru-hexlet-io-courses_files/ru-hexlet-io-courses-assets-application.css"',
+      'href="ru-hexlet-io-courses_files/ru-hexlet-io-assets-application.css"',
     );
 
     expect(savedHtml).toContain(
-      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-courses-assets-professions-nodejs.png"',
+      'src="ru-hexlet-io-courses_files/ru-hexlet-io-assets-professions-nodejs.png"',
     );
 
     expect(savedHtml).toContain(
-      'src="./ru-hexlet-io-courses_files/ru-hexlet-io-packs-js-runtime.js"',
+      'src="ru-hexlet-io-courses_files/ru-hexlet-io-packs-js-runtime.js"',
     );
 
     // Проверяем, что ВНЕШНИЕ ссылки остались нетронутыми
@@ -65,7 +66,7 @@ describe("Интеграционный тест с фикстурой", () => {
       path.join(
         tempDir,
         "ru-hexlet-io-courses_files",
-        "ru-hexlet-io-courses-assets-professions-nodejs.png", // <--- Без -png перед .png
+        "ru-hexlet-io-assets-professions-nodejs.png",
       ),
       "utf-8",
     );
