@@ -24,11 +24,10 @@ export function processResources(html, pageUrl, resourcesDirName) {
       nameUrl,
     });
 
-    // Получаем расширение через path.extname; если его нет — ставим .html
+    // Определяем расширение. Если его нет в пути (например, /blog/about) — ставим .html
     const parsedExt = path.extname(absoluteUrl.pathname);
     const extension = parsedExt || ".html";
 
-    // Убираем расширение из конца URL (если оно там было) перед генерацией имени
     const nameUrlWithoutExt = parsedExt ? nameUrl.slice(0, -parsedExt.length) : nameUrl;
 
     const localFileName = getFileName(nameUrlWithoutExt, extension);
