@@ -1,15 +1,8 @@
 import axios from "axios";
-import { getFileName } from "./get-file-name.js";
 import { saveFile } from "./save-file.js";
 
 export function downloadResources(resources, resourcesDirPath) {
-  const downloadPromises = resources.map(({ url, nameUrl }) => {
-    // nameUrl для имени файла, но расширение берем из url
-    const urlParts = url.split("?")[0].split(".");
-    const ext = urlParts.pop();
-    const extension = ext && ext.length <= 5 ? `.${ext}` : ".bin";
-    const fileName = getFileName(nameUrl, extension);
-
+  const downloadPromises = resources.map(({ url, fileName }) => {
     return axios
       .get(url, { responseType: "arraybuffer" })
       .then((response) => {

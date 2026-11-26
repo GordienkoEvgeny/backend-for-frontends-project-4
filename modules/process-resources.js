@@ -17,20 +17,22 @@ export function processResources(html, pageUrl, resourcesDirName) {
     const absoluteUrl = new URL(src, pageUrl);
     if (absoluteUrl.host !== baseUrl.host) return;
 
-    const nameUrl = absoluteUrl.href;
+    // Убираем завершающий слэш из пути (кроме корня), чтобы не было лишнего дефиса в имени файла
+    const cleanPathname = absoluteUrl.pathname.replace(/\/$/, "");
+    const nameUrl = `${absoluteUrl.origin}${cleanPathname}`;
 
-    resourceUrls.push({
-      url: absoluteUrl.href,
-      nameUrl,
-    });
-
-    // Определяем расширение. Если его нет в пути (например, /blog/about) — ставим .html
-    const parsedExt = path.extname(absoluteUrl.pathname);
+    const parsedExt = path.extname(cleanPathname);
     const extension = parsedExt || ".html";
 
     const nameUrlWithoutExt = parsedExt ? nameUrl.slice(0, -parsedExt.length) : nameUrl;
 
     const localFileName = getFileName(nameUrlWithoutExt, extension);
+
+    // Сразу передаем готовое имя файла для скачивания
+    resourceUrls.push({
+      url: absoluteUrl.href,
+      fileName: localFileName,
+    });
 
     $(element).attr(attribute, `${resourcesDirName}/${localFileName}`);
   };
