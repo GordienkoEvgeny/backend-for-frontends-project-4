@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import { getFileName } from "./get-file-name.js";
 import { URL } from "node:url";
+import path from "node:path";
 
 export function processResources(html, pageUrl, resourcesDirName) {
   const $ = cheerio.load(html);
@@ -19,20 +20,24 @@ export function processResources(html, pageUrl, resourcesDirName) {
     const nameUrl = absoluteUrl.href;
 
     resourceUrls.push({
-      url: absoluteUrl.href, // для axios.get
-      nameUrl, // для getFileName
+      url: absoluteUrl.href,
+      nameUrl,
     });
 
-    const ext = absoluteUrl.pathname.split(".").pop();
-    const extension = ext && ext.length < 5 ? `.${ext}` : ".bin";
-    const nameUrlWithoutExt = nameUrl.replace(new RegExp(`${extension}$`), "");
+    // Получаем расширение через path.extname; если его нет — ставим .html
+    const parsedExt = path.extname(absoluteUrl.pathname);
+    const extension = parsedExt || ".html";
+
+    // Убираем расширение из конца URL (если оно там было) перед генерацией имени
+    const nameUrlWithoutExt = parsedExt ? nameUrl.slice(0, -parsedExt.length) : nameUrl;
+
     const localFileName = getFileName(nameUrlWithoutExt, extension);
 
     $(element).attr(attribute, `${resourcesDirName}/${localFileName}`);
   };
 
   $("img").each((_, el) => processElement(el, "src"));
-  $('link[rel="stylesheet"]').each((_, el) => processElement(el, "href"));
+  $("link").each((_, el) => processElement(el, "href"));
   $("script").each((_, el) => processElement(el, "src"));
 
   return {
